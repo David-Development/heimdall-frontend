@@ -1,0 +1,22 @@
+
+#gallery_wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+#gallery_list {
+  /* border: 1px solid orange; */
+  height: 100%;
+  min-width: 250px;
+  max-width: 300px;
+  float: left;
+
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+#gallery_content {
+  padding: 16px;
+  width: 500px;
+}

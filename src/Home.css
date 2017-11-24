@@ -1,0 +1,14 @@
+button a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#home {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#home > CustomCard {
+  margin-left: 16px;
+}

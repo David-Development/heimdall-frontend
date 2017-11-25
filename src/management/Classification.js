@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import FolderIcon from 'material-ui-icons/Folder';
 
 import MobileStepper from 'material-ui/MobileStepper';
 import Button from 'material-ui/Button';
@@ -108,7 +107,7 @@ class Classification extends Component {
 
     if(this.state.event.images !== undefined) {
       let image = this.state.event.images[this.state.activeStep];
-      classification_image = <img src={image.url} />;
+      classification_image = <img src={image.url} alt="" />;
       this.state.imageCount = Object.keys(this.state.event.images).length;
 
       if(image.detected.length > 0) {
@@ -127,7 +126,7 @@ class Classification extends Component {
             <List>
               <ListItem button onClick={this.openNewPersonDialog} disabled={this.state.activeStep >= this.state.imageCount}>
                 <Avatar>
-                  <img id="classification_list_add_circle" src={PlusCircleOutline} />
+                  <img id="classification_list_add_circle" src={PlusCircleOutline} alt="" />
                 </Avatar>
                 <ListItemText primary="Neue Person" secondary="" />
               </ListItem>

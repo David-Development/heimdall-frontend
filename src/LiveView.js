@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './LiveView.css';
 import WSAvcPlayer from './h264/wsavc/WSAvcPlayer'
-import Button from 'material-ui/Button'
 import FlipMove from 'react-flip-move';
 
 import ArrowUp from './images/arrow-up.svg'
@@ -69,13 +68,13 @@ class LiveView extends Component {
         <p id="identified_person_name">Test Person</p>
         <div id="container_recognition_results">
           <div id="container_recognition_controls">
-            <img width="100" src={ArrowUp} onClick={() => this.addRecognition()} />
+            <img width="100" src={ArrowUp} onClick={() => this.addRecognition()} alt="" />
           </div>
           
           <FlipMove id="recognition_list" duration={150} enterAnimation="accordionHorizontal" leaveAnimation="accordionHorizontal">
             {
               Object.keys(this.state).reverse().map(function(key) {
-                return <img key={key} width="100" src={this.state[key]} />
+                return <img key={key} width="100" src={this.state[key]} alt="" />
               }.bind(this))
             }
           </FlipMove>

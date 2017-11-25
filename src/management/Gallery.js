@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
 import './Gallery.css'
 
@@ -11,9 +10,9 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import FolderIcon from 'material-ui-icons/Folder';
 
-import Logan from '../images/logan.jpg'
-import TheRock from '../images/therock.jpg'
-import TheRock2 from '../images/therock2.jpg'
+// import Logan from '../images/logan.jpg'
+// import TheRock from '../images/therock.jpg'
+// import TheRock2 from '../images/therock2.jpg'
 
 import HTTPClient from '../HTTPClient'
 
@@ -34,17 +33,12 @@ const styles = theme => ({
   },
 });
 
-class Gallery extends Component {
-
-  constructor(props) {
-    super(props);
-  }
+class Gallery extends React.Component {
 
   componentDidMount() {
     HTTPClient.fetchPersons()
       .then(persons => {
-        this.state.persons = persons;
-        this.setState(this.state);
+        this.setState({ persons: persons });
       });
   }
 
@@ -102,7 +96,7 @@ class Gallery extends Component {
             {
               this.state.currentImages.map(image => 
                 (<GridListTile key={image.id} cols={1}>
-                  <img src={HTTPClient.getImageUrl(`${this.state.currentPerson.path}/${image.name}`)} />
+                  <img src={HTTPClient.getImageUrl(`${this.state.currentPerson.path}/${image.name}`)} alt="" />
                 </GridListTile>)
               )
             }

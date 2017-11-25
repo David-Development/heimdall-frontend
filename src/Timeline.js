@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router';
 import './Timeline.css';
 
@@ -7,16 +6,13 @@ import HTTPClient from './HTTPClient'
 
 class LiveView extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
       Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents()])
         .then(values => { 
-          this.state.persons  = values[0];
-          this.state.events = values[1];
-          this.setState(this.state);
+          this.setState({
+            persons: values[0],
+            events : values[1]
+          });
         });
   }
 
@@ -63,7 +59,7 @@ class LiveView extends Component {
                         {
                           event.images.map(image => {
                             //console.log(image);
-                            return (<img key={"image_" + image.id} className="event_img" src={image.url} />)
+                            return (<img key={"image_" + image.id} className="event_img" src={image.url} alt="" />)
                           })
                         }
 

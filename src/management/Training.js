@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import keycode from 'keycode';
@@ -7,36 +6,27 @@ import Table, {
   TableBody,
   TableCell,
   TableFooter,
-  TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
 } from 'material-ui/Table';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
-import IconButton from 'material-ui/IconButton';
-import Tooltip from 'material-ui/Tooltip';
-import DeleteIcon from 'material-ui-icons/Delete';
-import FilterListIcon from 'material-ui-icons/FilterList';
 
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
+import HTTPClient from '../HTTPClient'
 
 
 const columnData = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
+  { id: 'classifier_type', numeric: false, disablePadding: false, label: 'Classifier' },
+  { id: 'cv_score', numeric: true, disablePadding: false, label: 'Cross-Val-Score' },
+  { id: 'num_classes', numeric: true, disablePadding: false, label: 'Personen' },
+  { id: 'total_images', numeric: true, disablePadding: false, label: 'Total Images' },
+  { id: 'total_no_faces', numeric: true, disablePadding: false, label: 'Images without face' },
+  { id: 'training_time', numeric: true, disablePadding: false, label: 'Training time (seconds)' },
+  { id: 'date', numeric: false, disablePadding: false, label: 'Date' }
 ];
 
 
@@ -63,28 +53,27 @@ class Training extends React.Component {
     super(props, context);
 
     this.state = {
-      order: 'asc',
-      orderBy: 'calories',
+      order: 'desc',
+      orderBy: 'id',
       selected: [],
-      data: [
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Donut', 452, 25.0, 51, 4.9),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-        createData('Honeycomb', 408, 3.2, 87, 6.5),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Jelly Bean', 375, 0.0, 94, 0.0),
-        createData('KitKat', 518, 26.0, 65, 7.0),
-        createData('Lollipop', 392, 0.2, 98, 0.0),
-        createData('Marshmallow', 318, 0, 81, 2.0),
-        createData('Nougat', 360, 19.0, 9, 37.0),
-        createData('Oreo', 437, 18.0, 63, 4.0),
-      ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
+      data: [],
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 10,
     };
   }
+
+  componentDidMount() {
+    HTTPClient.fetchModels()
+      .then(models => {
+        //console.log(models);
+        this.setState({ data: models });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ data: [] });
+      });
+  }
+  
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -145,9 +134,6 @@ class Training extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
-
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -168,7 +154,8 @@ class Training extends React.Component {
             />
             <TableBody>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
-                const isSelected = this.isSelected(n.id);
+                const isSelected = n.loaded;
+                //console.log(n);
                 return (
                   <TableRow
                     hover
@@ -178,16 +165,19 @@ class Training extends React.Component {
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.id}
-                    selected={isSelected}
+                    selected={n.loaded}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} />
                     </TableCell>
                     <TableCell padding="none">{n.name}</TableCell>
-                    <TableCell numeric>{n.calories}</TableCell>
-                    <TableCell numeric>{n.fat}</TableCell>
-                    <TableCell numeric>{n.carbs}</TableCell>
-                    <TableCell numeric>{n.protein}</TableCell>
+                    <TableCell text="true">{n.classifier_type}</TableCell>
+                    <TableCell numeric>{n.cv_score}</TableCell>
+                    <TableCell numeric>{n.num_classes}</TableCell>
+                    <TableCell numeric>{n.total_images}</TableCell>
+                    <TableCell numeric>{n.total_no_faces}</TableCell>
+                    <TableCell numeric>{n.training_time}</TableCell>
+                    <TableCell text="true">{n.date}</TableCell>
                   </TableRow>
                 );
               })}

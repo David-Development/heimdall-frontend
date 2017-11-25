@@ -55,6 +55,18 @@ class HTTPClient {
       */
   }
 
+  static fetchModels() {
+    let modelsEndpoint = this.getApiEndpoint("/models");
+    return fetch(modelsEndpoint)
+      .then(HTTPClient.handleErrors)
+      .then(result => result.json());
+
+      /*
+    let eventEndpoint = this.getApiEndpoint(`/events/${eventid}`);
+    return fetch(eventEndpoint)
+      .then(result => result.json());
+      */
+  }
 
 
   static updateClassification(event) {

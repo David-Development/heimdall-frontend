@@ -5350,10 +5350,6 @@ react-event-listener@^0.5.0, react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-flip-move@^2.9.17:
-  version "2.9.17"
-  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-2.9.17.tgz#849dc41f614a3d26dc229f4c930a0fb3a8f39441"
-
 react-flow-types@0.2.0-beta.3:
   version "0.2.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-flow-types/-/react-flow-types-0.2.0-beta.3.tgz#93e7e3c95a75a1a941de05b9d7287e3ca6871046"

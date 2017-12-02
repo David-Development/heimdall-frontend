@@ -10,8 +10,7 @@
     "sylvester": "^0.0.21",
     "material-ui": "next",
     "material-ui-icons": "1.0.0-beta.17",
-    "react-router-dom":"^4.2.2",
-    "react-flip-move":"^2.9.17"
+    "react-router-dom":"^4.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

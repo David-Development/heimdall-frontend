@@ -24,28 +24,3 @@
   height: 85%;
   background: #111;
 }
-
-
-#container_recognition_results {
-  position: absolute;
-  width: calc(100% - 109px);
-  bottom: 28px;
-  padding-bottom: 12px;
-  background: rgba(238, 238, 238, 0.486);
-}
-
-#container_recognition_controls {
-  padding-top: 16px;
-  padding-left: 16px; 
-  padding-right: 16px;
-  float: left;
-}
-
-#recognition_list {
-  padding-top: 16px;
-  float:left;
-}
-
-#recognition_list img {
-  margin-right:16px;
-}

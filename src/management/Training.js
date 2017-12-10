@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import keycode from 'keycode';
 import Table, {
   TableBody,
   TableCell,
@@ -21,6 +20,7 @@ import HTTPClient from '../HTTPClient'
 const columnData = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'classifier_type', numeric: false, disablePadding: false, label: 'Classifier' },
+  { id: 'loaded', numeric: false, disablePadding: false, label: 'Aktiv' },
   { id: 'cv_score', numeric: true, disablePadding: false, label: 'Cross-Val-Score' },
   { id: 'num_classes', numeric: true, disablePadding: false, label: 'Personen' },
   { id: 'total_images', numeric: true, disablePadding: false, label: 'Total Images' },
@@ -98,13 +98,15 @@ class Training extends React.Component {
     }
     this.setState({ selected: [] });
   };
+  
+  handleBla= () => {
+    const { data } = this.state;
+    let currentlyLoadedModel = data.find(model => model.loaded === true);
 
-  handleKeyDown = (event, id) => {
-    if (keycode(event) === 'space') {
-      this.handleClick(event, id);
-    }
-  };
-
+    // Unload model
+    currentlyLoadedModel.loaded = false; // TODO make web request
+  }
+  
   handleClick = (event, id) => {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
@@ -134,6 +136,8 @@ class Training extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  isSelected = id => this.state.selected.indexOf(id) !== -1;
+
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -154,7 +158,7 @@ class Training extends React.Component {
             />
             <TableBody>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
-                const isSelected = n.loaded;
+                const isSelected = this.isSelected(n.id);
                 //console.log(n);
                 return (
                   <TableRow
@@ -165,13 +169,14 @@ class Training extends React.Component {
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.id}
-                    selected={n.loaded}
+                    selected={isSelected}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} />
                     </TableCell>
                     <TableCell padding="none">{n.name}</TableCell>
                     <TableCell text="true">{n.classifier_type}</TableCell>
+                    <TableCell text="true">{n.loaded ? "Ja" : "Nein"}</TableCell>
                     <TableCell numeric>{n.cv_score}</TableCell>
                     <TableCell numeric>{n.num_classes}</TableCell>
                     <TableCell numeric>{n.total_images}</TableCell>

@@ -32,6 +32,11 @@ class Classification extends Component {
       .then(res => {
         this.setState({ persons: res[1]});
         this.setState({ event  : res[0]});
+
+        if(this.state.event.images !== undefined) {
+          this.setState({ imageCount: Object.keys(this.state.event.images).length });
+        }
+    
         //console.log(this.state);
       });
   }
@@ -108,8 +113,7 @@ class Classification extends Component {
     if(this.state.event.images !== undefined) {
       let image = this.state.event.images[this.state.activeStep];
       classification_image = <img src={image.url} alt="" />;
-      this.state.imageCount = Object.keys(this.state.event.images).length;
-
+    
       if(image.detected.length > 0) {
         classifiedUser = image.detected[0].id;
       }

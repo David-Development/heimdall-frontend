@@ -16,11 +16,20 @@
 }
 
 #canvas_live_stream {
+  position: absolute;
+  width:100%;
+  height: 100%;
+}
+
+#img_live_stream {
   padding: 0;
   margin: auto;
   display: block;
 
+  max-width: 100%;
+  /*
   width: 100%;
   height: 85%;
+  */
   background: #111;
 }

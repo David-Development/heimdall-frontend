@@ -52,13 +52,13 @@ class LiveView extends Component {
                     
 
                     return (
-                      <li key={"event_" + event.id} className="event" data-date={event.date} data-time={event.time} onClick={() => this.clicker(event.id)}>
+                      <li key={"event_" + event.id} className="event" data-date={new Date(Date.parse(event.date)).toLocaleDateString()} data-time={new Date(`1970-01-01T${event.time}Z`).toLocaleTimeString()} onClick={() => this.clicker(event.id)}>
                         <h3>{names.join(", ")}</h3>
                         <div className="preview_flexbox">
                         
                         {
                           event.images.map(image => {
-                            //console.log(image);
+                            console.log(image);
                             return (<img key={"image_" + image.id} className="event_img" src={image.url} alt="" />)
                           })
                         }

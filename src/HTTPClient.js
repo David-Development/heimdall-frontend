@@ -9,7 +9,8 @@ class HTTPClient {
   }
 
   static getServerHost() {
-    return "//localhost:5003";
+    //return "//localhost:5003";
+    return "//localhost:5000";
   }
 
 
@@ -28,21 +29,21 @@ class HTTPClient {
   }
 
   static fetchPersons() {
-    let personsEndpoint = this.getApiEndpoint("/persons");
+    let personsEndpoint = this.getApiEndpoint("/persons/");
     return fetch(personsEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
   }
   
   static fetchEvents() {
-    let eventEndpoint = this.getApiEndpoint("/events");
+    let eventEndpoint = this.getApiEndpoint("/events/");
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
   }
 
   static fetchEvent(eventid) {
-    let eventEndpoint = this.getApiEndpoint("/events");
+    let eventEndpoint = this.getApiEndpoint("/events/");
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())

@@ -33,7 +33,8 @@ class LiveView extends Component {
     */
 
     this.state = { 
-      identifiedName: "Test Person"
+      identifiedName: "Test Person",
+      currentImage: undefined
     };
   }
 
@@ -42,12 +43,14 @@ class LiveView extends Component {
     console.log("Refs:", this.refs);
     //this.wsavc.connectCanvas(this.canvas);
 
+    /*
     let ctx = this.canvas.getContext("2d");
     this.image = new Image();
     this.image.onload = () => {
       //ctx.drawImage(this.image, 0, 0);
       this.drawImageProp(ctx, this.image, 0, 0, this.canvas.width, this.canvas.height);
     };
+    */
   }
 
   componentWillUnmount() {
@@ -61,7 +64,8 @@ class LiveView extends Component {
     // Once a connection has been made, make a subscription and send a message.
     console.log("onConnect");
     //this.client.subscribe("World");
-    this.client.subscribe("#");
+    //this.client.subscribe("#");
+    this.client.subscribe("recognitions/#");
     
     //this.client.subscribe("$SYS/#");
 
@@ -79,13 +83,18 @@ class LiveView extends Component {
   onMQTTMessageArrived = (message) => {
 
     if(message.destinationName === "camera") {
-      // Ignore for now..
-    } else if(message.destinationName === "recognitions/image") {
+      console.log("Load image");
       this.image.src = `data:image/jpg;base64,${message.payloadString}`;
-      //this.captureMQTT();
+    } else if(message.destinationName === "recognitions/image") {
+      console.log("Load image");
+      //this.image.src = `data:image/jpg;base64,${message.payloadString}`;
+      //this.setState({ currentImage: `data:image/jpg;base64,${message.payloadString}` });
+      
     } else if(message.destinationName === "recognitions/person") {
       let recResult = JSON.parse(message.payloadString);
       console.log(recResult);
+
+      this.setState({ currentImage: recResult.img_path });
 
       let name = "Unkown Person";
       if(recResult.predictions.length > 0) {
@@ -113,12 +122,15 @@ class LiveView extends Component {
     this.client.send(message);
   }
 
+  // <canvas id="canvas_live_stream" ref="canvas_live_stream"></canvas>
   render() {
     return (
       <div className="LiveView">
         <button onClick={this.captureMQTT}>Next image</button>
         <p id="identified_person_name">{this.state.identifiedName}</p>
-        <canvas id="canvas_live_stream" ref="canvas_live_stream"></canvas>
+         
+        <img id="img_live_stream" src={this.state.currentImage} />
+        
       </div>
     )
   }

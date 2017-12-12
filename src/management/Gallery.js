@@ -96,7 +96,7 @@ class Gallery extends React.Component {
             {
               this.state.currentImages.map(image => 
                 (<GridListTile key={image.id} cols={1}>
-                  <img src={HTTPClient.getImageUrl(`${this.state.currentPerson.path}/${image.name}`)} alt="" />
+                  <img src={image.path} alt="" />
                 </GridListTile>)
               )
             }

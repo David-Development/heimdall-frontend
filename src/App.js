@@ -30,6 +30,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import ChevronRightSvg from './images/chevron-right.svg';
+import {subscribe} from 'mqtt-react';
 
 const drawerWidth = 240;
 
@@ -116,6 +117,12 @@ const styles = theme => ({
   navigationBarLi: {
     background: `url(${ChevronRightSvg})`,
   },
+  titleFlex: {
+    flex: 1,
+  },
+  systemStatus: {
+    marginRight: 24,
+  },
 });
 
 
@@ -127,10 +134,6 @@ const styles = theme => ({
 
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     open: false,
@@ -164,6 +167,24 @@ class App extends Component {
 
 */
 
+  parseSystemStatus(data) {
+    let status = data.pop();
+    if(status && status.status) {
+      //console.log(status);
+      let state = status.status.state;
+      let meta = status.status.meta;
+      let step = meta.step;
+      let result = `${state} - ${step}`;
+      if(step === "Training" || step === "Augmenting" || step === "Transforming") {
+        result += ` (${meta.current}/${status.status.meta.total})`;
+      } else if(state === "FINISHED") {
+        result = "";
+      }
+      //console.log(result);
+      return result;
+    }
+    return "";
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -180,8 +201,11 @@ class App extends Component {
                   className={classNames(classes.menuButton, this.state.open && classes.hide)}>
                   <MenuIcon />
                 </IconButton>
-                <Typography type="title" color="inherit" noWrap>
+                <Typography type="title" color="inherit" noWrap className={classes.titleFlex}>
                   Facial recognition for Peephole
+                </Typography>
+                <Typography color="inherit" className={classes.systemStatus}>
+                  {this.parseSystemStatus(this.props.data)}
                 </Typography>
               </Toolbar>
             </AppBar>
@@ -226,7 +250,6 @@ class App extends Component {
             </Drawer>
             <main className={classes.content}>
               
-
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/live' component={LiveView} />
@@ -250,4 +273,8 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(App);
+export default subscribe({
+  topic: 'heimdall/status/training'
+})(withStyles(styles, { withTheme: true })(App));
+
+  

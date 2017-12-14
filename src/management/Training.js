@@ -10,6 +10,7 @@ import Table, {
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
+import Button from 'material-ui/Button';
 
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
@@ -65,7 +66,7 @@ class Training extends React.Component {
   componentDidMount() {
     HTTPClient.fetchModels()
       .then(models => {
-        //console.log(models);
+        console.log(models);
         this.setState({ data: models });
       })
       .catch(error => {
@@ -128,6 +129,12 @@ class Training extends React.Component {
     this.setState({ selected: newSelected });
   };
 
+  trainClick = () => {
+    HTTPClient.startTraining()
+      .then(console.log)
+      .catch(console.log);
+  }
+
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -189,6 +196,9 @@ class Training extends React.Component {
             </TableBody>
             <TableFooter>
               <TableRow>
+                <td>
+                <Button raised className="buttonStartTraining" onClick={this.trainClick}>Training starten</Button>
+                </td>
                 <TablePagination
                   count={data.length}
                   rowsPerPage={rowsPerPage}

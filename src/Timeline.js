@@ -59,7 +59,7 @@ class LiveView extends Component {
                         {
                           event.images.map(image => {
                             console.log(image);
-                            return (<img key={"image_" + image.id} className="event_img" src={image.url} alt="" />)
+                            return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(image.url)} alt="" />)
                           })
                         }
 

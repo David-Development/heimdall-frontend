@@ -10,13 +10,17 @@ class HTTPClient {
 
   static getServerHost() {
     //return "//localhost:5003";
-    return "//localhost:5000";
+    return `//${window.location.hostname}:5000`;
   }
 
 
   // endpoint = "/api/person"
   static getApiEndpoint(endpoint) {
-    return this.getServerHost() + endpoint;
+    if(endpoint.startsWith('/')) {
+      return this.getServerHost() + endpoint;
+    } else {
+      return this.getServerHost() + '/' + endpoint;
+    }
   }
 
 
@@ -33,6 +37,11 @@ class HTTPClient {
     return fetch(personsEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
+      /*
+      .then(res => res.filter(x => {
+        return x.name !== 'new' && x.name !== 'unknown'
+      }));
+      */
   }
   
   static fetchEvents() {
@@ -47,7 +56,8 @@ class HTTPClient {
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())
-      .then(res => res.find(event => event.id === eventid));
+      .then(res => res.find(event => event.id === eventid))
+      .then(event => event ? event : []); // Event or empty by default
 
       /*
     let eventEndpoint = this.getApiEndpoint(`/events/${eventid}`);
@@ -57,10 +67,12 @@ class HTTPClient {
   }
 
   static fetchModels() {
-    let modelsEndpoint = this.getApiEndpoint("/models");
+    //let modelsEndpoint = this.getApiEndpoint("/api/models");
+    let modelsEndpoint = this.getApiEndpoint("/api/classifier");
     return fetch(modelsEndpoint)
       .then(HTTPClient.handleErrors)
-      .then(result => result.json());
+      .then(result => result.json())
+      .then(result => result.data ? result.data : undefined);
 
       /*
     let eventEndpoint = this.getApiEndpoint(`/events/${eventid}`);
@@ -69,7 +81,32 @@ class HTTPClient {
       */
   }
 
+  static startTraining() {
+    let eventEndpoint = this.getApiEndpoint("/api/recognizer/train/");
+    return fetch(eventEndpoint)
+      .then(HTTPClient.handleErrors)
+      .then(result => result.json());
+  }
 
+  static updateClassification(event, person_id, image_id) {
+    //console.log(event);
+
+    return fetch(this.getApiEndpoint(`/api/images/`),
+      {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ 
+            gallery_id: person_id,
+            image_ids: [ image_id ]
+          })
+      })
+      .then(HTTPClient.handleErrors)
+      .then(res => res.json())
+  }
+
+  /*
   static updateClassification(event) {
     //console.log(event);
 
@@ -84,9 +121,10 @@ class HTTPClient {
       .then(HTTPClient.handleErrors)
       .then(res => res.json())
   }
+  */
 
   static createNewPerson(name) {
-    return fetch(this.getApiEndpoint(`/person/`),
+    return fetch(this.getApiEndpoint(`/api/gallery/`),
       {
           method: "POST",
           headers: {

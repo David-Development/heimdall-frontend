@@ -43,7 +43,11 @@
 }
 
 .active {
-  background: cadetblue !important;
+  background: #03A9F4 !important;
+}
+
+.confirmed {
+  background: #4CAF50 !important;
 }
 
 

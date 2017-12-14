@@ -26,9 +26,13 @@ const styles = {
 class Classification extends Component {
 
   componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
     const { match: { params } } = this.props;
 
-    Promise.all([HTTPClient.fetchEvent(parseInt(params.eventid)), HTTPClient.fetchPersons()])
+    Promise.all([HTTPClient.fetchEvent(parseInt(params.eventid, 10)), HTTPClient.fetchPersons()])
       .then(res => {
         this.setState({ persons: res[1]});
         this.setState({ event  : res[0]});
@@ -72,15 +76,25 @@ class Classification extends Component {
     let person = this.state.persons[key];
     //console.log("Person:", person);
 
+    let activeImage = this.state.event.images[this.state.activeStep];
+
+    if(activeImage.detected.length === 0) {
+      activeImage.detected[0] = { id: 0 };
+    } 
+    
     // Get current detection
-    let detection = this.state.event.images[this.state.activeStep].detected[0];
+    let detection = activeImage.detected[0];
     detection.id = person.id; // update the person id
+    activeImage.user_id = person.id;
+    
     this.setState(this.state);
 
-
     // Update the person of the first image. If we detected more than one person we don't allow the update process!
-    HTTPClient.updateClassification(this.state.event)
-      .then(console.log)
+    HTTPClient.updateClassification(this.state.event, person.id, activeImage.id)
+      .then(r => {
+        console.log(r);
+        this.loadData();
+      })
       .catch(alert);
   }
 
@@ -109,6 +123,7 @@ class Classification extends Component {
     
     let classification_image = "";
     let classifiedUser = -1; // Handle case, that multiple persons are in the view! --> Do not show those pictures for classification!
+    let confirmedUser = -1;
 
     if(this.state.event.images !== undefined) {
       let image = this.state.event.images[this.state.activeStep];
@@ -117,9 +132,9 @@ class Classification extends Component {
       if(image.detected.length > 0) {
         classifiedUser = image.detected[0].id;
       }
+      confirmedUser = image.user_id;
+      console.log(classifiedUser, confirmedUser);
     }
-
-    
 
     return (
       <div>
@@ -138,15 +153,17 @@ class Classification extends Component {
               {
                 Object.keys(this.state.persons).map(function(key) {
                   let person = this.state.persons[key];
-                  return (
-                    <ListItem className={classifiedUser === person.id ? "active" : ""} button key={key} onClick={() => this.handleClickPerson(key)} disabled={this.state.activeStep >= this.state.imageCount}>
-                      <Avatar
-                        alt={person.name}
-                        src={person.avatar}
-                        className="bigAvatar" />
-                      <ListItemText primary={person.name} />
-                    </ListItem>
-                  )
+                  if(person.name !== 'new' && person.name !== 'unknown') {
+                    return (
+                      <ListItem className={(classifiedUser === person.id ? "active " : "") + (confirmedUser === person.id ? "confirmed" : "")} button key={key} onClick={() => this.handleClickPerson(key)} disabled={this.state.activeStep >= this.state.imageCount}>
+                        <Avatar
+                          alt={person.name}
+                          src={person.avatar}
+                          className="bigAvatar" />
+                        <ListItemText primary={person.name} />
+                      </ListItem>
+                    );
+                  }
                 }.bind(this))
               }
             </List>
@@ -173,7 +190,7 @@ class Classification extends Component {
               />
 
               <div id="classification_image">
-                {classification_image}
+                {HTTPClient.getApiEndpoint(classification_image)}
               </div>
           </div>
         </div>

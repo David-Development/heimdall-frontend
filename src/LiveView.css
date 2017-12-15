@@ -8,7 +8,7 @@
   text-align: center;
   margin: auto;
   display: block;
-  width: calc(100% - 108px);
+  width: calc(100% - 61px); /* 61px is the width of the sidebar (closed) */
   
   color:white;
   font-size: 5em;

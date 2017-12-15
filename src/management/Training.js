@@ -43,6 +43,10 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  buttonStartTraining: {
+    marginLeft: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+  },
 });
 
 
@@ -196,9 +200,6 @@ class Training extends React.Component {
             </TableBody>
             <TableFooter>
               <TableRow>
-                <td>
-                <Button raised className="buttonStartTraining" onClick={this.trainClick}>Training starten</Button>
-                </td>
                 <TablePagination
                   count={data.length}
                   rowsPerPage={rowsPerPage}
@@ -210,6 +211,7 @@ class Training extends React.Component {
             </TableFooter>
           </Table>
         </div>
+        <Button raised className={classes.buttonStartTraining} onClick={this.trainClick}>Training starten</Button>
       </Paper>
     );
   }

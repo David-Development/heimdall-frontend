@@ -30,7 +30,9 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import ChevronRightSvg from './images/chevron-right.svg';
-import {subscribe} from 'mqtt-react';
+
+import TrainingDialog from './TrainingDialog';
+
 
 const drawerWidth = 240;
 
@@ -106,7 +108,7 @@ const styles = theme => ({
     width: '100%',
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: 24,
+    //padding: 24,
     height: 'calc(100% - 56px)',
     marginTop: 56,
     [theme.breakpoints.up('sm')]: {
@@ -119,9 +121,6 @@ const styles = theme => ({
   },
   titleFlex: {
     flex: 1,
-  },
-  systemStatus: {
-    marginRight: 24,
   },
 });
 
@@ -137,6 +136,7 @@ class App extends Component {
 
   state = {
     open: false,
+    trainingProgress: 50
   };
 
   handleDrawerOpen = () => {
@@ -167,30 +167,13 @@ class App extends Component {
 
 */
 
-  parseSystemStatus(data) {
-    let status = data.pop();
-    if(status && status.status) {
-      //console.log(status);
-      let state = status.status.state;
-      let meta = status.status.meta;
-      let step = meta.step;
-      let result = `${state} - ${step}`;
-      if(step === "Training" || step === "Augmenting" || step === "Transforming") {
-        result += ` (${meta.current}/${status.status.meta.total})`;
-      } else if(state === "FINISHED") {
-        result = "";
-      }
-      //console.log(result);
-      return result;
-    }
-    return "";
-  }
 
   render() {
     const { classes, theme } = this.props;
     return (
       <Router>
         <div className={classes.root}>
+          <TrainingDialog />
           <div className={classes.appFrame}>
             <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
               <Toolbar disableGutters={!this.state.open}>
@@ -203,9 +186,6 @@ class App extends Component {
                 </IconButton>
                 <Typography type="title" color="inherit" noWrap className={classes.titleFlex}>
                   Facial recognition for Peephole
-                </Typography>
-                <Typography color="inherit" className={classes.systemStatus}>
-                  {this.parseSystemStatus(this.props.data)}
                 </Typography>
               </Toolbar>
             </AppBar>
@@ -273,8 +253,6 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default subscribe({
-  topic: 'heimdall/status/training'
-})(withStyles(styles, { withTheme: true })(App));
+export default withStyles(styles, { withTheme: true })(App);
 
   

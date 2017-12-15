@@ -15,6 +15,7 @@ const styles = {
   },
   media: {
     height: 250,
+    backgroundSize: 'contain',
   },
 };
 

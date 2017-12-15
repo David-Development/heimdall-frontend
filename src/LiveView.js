@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './LiveView.css';
 //import WSAvcPlayer from './h264/wsavc/WSAvcPlayer'
 import { subscribe } from 'mqtt-react';
@@ -7,30 +6,9 @@ import HTTPClient from './HTTPClient'
 
 class LiveView extends Component {
 
-  constructor(props) {
-    super(props);
-
-    
-
-    // Create a client instance
-    // this.client = new window.Paho.MQTT.Client(window.location.hostname, Number(8083), `heimdall-frontend-${Math.random()}`);
-    
-    
-    this.state = { 
-      currentImage: undefined
-    };
-
-    
-  }
-
-  componentDidMount() {
-    this.canvas = ReactDOM.findDOMNode(this.refs.canvas_live_stream);
-    //console.log("Refs:", this.refs);
-  }
-
-  componentWillUnmount() {
-    //this.wsavc.disconnect();
-  }
+  state = { 
+    currentImage: undefined
+  };
 
   /*
   // called when a message arrives

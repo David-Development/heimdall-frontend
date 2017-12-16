@@ -93,7 +93,9 @@ class HTTPClient {
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())
-      .then(res => res.data.length > 0);
+      .then(res => res.data.length > 0); // Check how many classifiers are trained
+      //.then(res => false); // Use this line for debugging purposes
+      
   }
 
 

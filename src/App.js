@@ -31,7 +31,8 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import ChevronRightSvg from './images/chevron-right.svg';
 
-import TrainingDialog from './TrainingDialog';
+import TrainingDialog from './dialogs/TrainingDialog';
+import DialogNoClassifierTrained from './dialogs/DialogNoClassifierTrained';
 
 import HTTPClient from './HTTPClient'
 
@@ -137,10 +138,6 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
-    HTTPClient.checkIfClassifierExists()
-      .then(res => this.setState({ isClassifierInitialized: res }))
-      .catch(alert);
   }
 
   state = {
@@ -157,6 +154,9 @@ class App extends Component {
   };
 
   componentDidMount() {
+    HTTPClient.checkIfClassifierExists()
+      .then(res => this.setState({ isClassifierInitialized: res }))
+      .catch(alert);
   }
 
 /*
@@ -175,6 +175,10 @@ class App extends Component {
 </ul> 
 
 */
+
+  getDivNoClassifierTrained(isClassifierInitialized) {
+    return isClassifierInitialized ? "" : (<DialogNoClassifierTrained />)
+  }
 
 
   render() {
@@ -238,6 +242,7 @@ class App extends Component {
               </div>
             </Drawer>
             <main className={classes.content}>
+              {this.getDivNoClassifierTrained(this.state.isClassifierInitialized)}
               
               <Switch>
                 <Route exact path='/' component={Home} />

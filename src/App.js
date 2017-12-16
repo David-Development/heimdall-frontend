@@ -33,6 +33,7 @@ import ChevronRightSvg from './images/chevron-right.svg';
 
 import TrainingDialog from './TrainingDialog';
 
+import HTTPClient from './HTTPClient'
 
 const drawerWidth = 240;
 
@@ -134,9 +135,17 @@ const styles = theme => ({
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    HTTPClient.checkIfClassifierExists()
+      .then(res => this.setState({ isClassifierInitialized: res }))
+      .catch(alert);
+  }
+
   state = {
     open: false,
-    trainingProgress: 50
+    isClassifierInitialized: true
   };
 
   handleDrawerOpen = () => {
@@ -185,7 +194,7 @@ class App extends Component {
                   <MenuIcon />
                 </IconButton>
                 <Typography type="title" color="inherit" noWrap className={classes.titleFlex}>
-                  Facial recognition for Peephole
+                  Facial recognition for Peephole  {this.state.isClassifierInitialized}
                 </Typography>
               </Toolbar>
             </AppBar>

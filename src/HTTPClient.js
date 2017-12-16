@@ -88,6 +88,16 @@ class HTTPClient {
       .then(result => result.json());
   }
 
+  static checkIfClassifierExists() {
+    let eventEndpoint = this.getApiEndpoint("/api/classifier/");
+    return fetch(eventEndpoint)
+      .then(HTTPClient.handleErrors)
+      .then(result => result.json())
+      .then(res => res.data.length > 0);
+  }
+
+
+
   static updateClassification(event, person_id, image_id) {
     //console.log(event);
 

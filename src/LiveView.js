@@ -41,6 +41,7 @@ class LiveView extends Component {
   render() {
     return (
       <div className="LiveView">
+        <button onClick={this.captureMQTT}>Next image</button>
         <p id="identified_person_name">{this.extractPrediction(this.props.data)}</p>
 
         <img id="img_live_stream" alt="Live Stream" src={HTTPClient.getApiEndpoint('video_feed')} />
@@ -50,7 +51,8 @@ class LiveView extends Component {
 }
 
 export default subscribe({
-  topic: 'recognitions/#'
+  //topic: 'recognitions/#'
+  topic: 'recognitions/person'
 })(LiveView);
 
 /*

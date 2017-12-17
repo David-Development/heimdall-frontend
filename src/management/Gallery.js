@@ -77,7 +77,13 @@ class Gallery extends React.Component {
         <div id="gallery_list">
           <List>
             {
-              Object.keys(this.state.persons).map(function(key) {
+              Object.keys(this.state.persons).filter(key => {
+                let name = this.state.persons[key].name;
+                if(name === 'new' || name === 'unknown') {
+                  return false;
+                }
+                return true;
+              }).map(function(key) {
                 let person = this.state.persons[key];
                 return (
                   <ListItem button key={key} onClick={() => this.handleClickPerson(key)}>

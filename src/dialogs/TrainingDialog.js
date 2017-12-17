@@ -36,7 +36,7 @@ class TrainingDialog extends React.Component {
       let description = meta.description;
       //let result = `${state} - ${description}`;
       let result = `${description}`;
-      if(description === "Training" || description === "Augmenting" || description === "Transforming") {
+      if(state === "EXCEPTION" || description === "Training" || description === "Augmenting" || description === "Transforming") {
         //result += ` (${meta.step}/${meta.total_steps})`;
         let progress = meta.step / meta.total_steps * 100;
         console.log(progress);

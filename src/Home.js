@@ -17,32 +17,6 @@ const styles = {
 
 
 class Home extends Component {
-
-      /*
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Heimdall</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. Yeees!
-        </p>
-        <button type="button" onClick={() => this.wsavc.playStream()}>Start Video</button>
-        <button type="button" onClick={() => this.wsavc.stopStream()}>Stop Video</button>
-        <button type="button" onClick={() => this.wsavc.disconnect()}>Disconnect</button>
-        <br/>
-        
-        <div>
-          <p id="identified_person_name">David Luhmer</p>
-          <canvas id="canvas_live_stream" ref="canvas_live_stream"></canvas>
-        </div>
-
-        <Button raised color="primary">
-          Erkennung!
-        </Button>
-      </div>
-      */
-
   render() {
     return (
       <div id="home">

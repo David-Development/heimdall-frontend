@@ -54,18 +54,14 @@ const styles = theme => ({
 
 class Training extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      order: 'desc',
-      orderBy: 'id',
-      selected: [],
-      data: [],
-      page: 0,
-      rowsPerPage: 10,
-    };
-  }
+  state = {
+    order: 'desc',
+    orderBy: 'id',
+    selected: [],
+    data: [],
+    page: 0,
+    rowsPerPage: 10,
+  };
 
   componentDidMount() {
     HTTPClient.fetchModels()

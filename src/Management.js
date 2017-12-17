@@ -4,6 +4,7 @@ import CustomCard from './CustomCard';
 import ClassificationLogo from './images/account-edit.svg';
 import './Management.css'
 
+import HTTPClient from './HTTPClient'
 /*
 
 <CustomCard image_url={ClassificationLogo}
@@ -23,11 +24,16 @@ import './Management.css'
 */
 
 class Management extends React.Component {
+
+  startTraining = () => {
+    HTTPClient.startTraining()
+    .then(console.log)
+    .catch(console.log);
+  }
+
   render() {
     return (
       <div id="management">
-        
-
         <CustomCard image_url={ClassificationLogo}
                     image_title ="Contemplative Reptile"
                     headline="Gallerie"
@@ -42,7 +48,9 @@ class Management extends React.Component {
                     headline="Training"
                     content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
                     link_url="/management/training"
-                    link_title="Training" />
+                    link_title="Statistiken"
+                    link_2_click={this.startTraining}
+                    link_2_title="Training starten" />
       </div>
     );
   }

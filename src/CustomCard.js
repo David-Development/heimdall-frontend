@@ -51,6 +51,12 @@ class CustomCard extends Component {
           </CardContent>
           <CardActions>
             <Button dense color="primary"><Link to={this.props.link_url}>{this.props.link_title}</Link></Button>
+            {
+              (this.props.link_2_title && 
+                (<Button dense color="primary" onClick={this.props.link_2_click}>{this.props.link_2_title}</Button>)
+              )
+            }
+            
           </CardActions>
         </Card>
       </div>

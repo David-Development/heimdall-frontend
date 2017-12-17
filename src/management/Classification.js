@@ -17,6 +17,7 @@ import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 import Divider from 'material-ui/Divider';
 
+import ClassificationInfoDialog from '../dialogs/ClassificationInfoDialog';
 import HTTPClient from '../HTTPClient'
 
 const styles = {
@@ -117,6 +118,32 @@ class Classification extends Component {
     this.ctl.close();
   }
 
+  extractUserCode(username) {
+    username = username.trim(); // Trim username first
+    let result = username;
+    if(username.length > 0) {
+      let indexWhitespace = username.lastIndexOf(" ");
+      result = username.substr(0, 1);
+      if(indexWhitespace > 0) {
+        result += username.substr(indexWhitespace+1, 1);
+      }
+    }
+    return result;
+  }
+
+  /*
+  console.log(extractUserCode(""));
+  console.log(extractUserCode("D"));
+  console.log(extractUserCode("David"));
+  console.log("___")
+  console.log(extractUserCode("David "));
+  console.log(extractUserCode("David L"));
+  console.log(extractUserCode("David Luhmer"));
+  console.log(extractUserCode("David  Luhmer"));
+  console.log(extractUserCode(" David   Luhmer"));
+  console.log("Done");
+  */
+
   render() {
     const { classes, theme } = this.props;
     
@@ -138,6 +165,18 @@ class Classification extends Component {
 
     return (
       <div>
+        <ClassificationInfoDialog title="Wichtiger Hinweis" content={
+          <div>
+              Bitte bewerten Sie nur Bilder in denen das Gesicht klar und deutlich zu sehen ist. Ignorieren Sie einfach alle übrigen Bilder.
+              <br/>
+              <br/>
+              Erklärung der verwendeten Farben:
+              <ul>
+                <li>Blau = Prognose des Systems</li>
+                <li>Grün = Durch Nutzer bestätigt</li>
+              </ul>
+          </div>
+        } />
         <h3 id="classification_title">Wie heißt diese Person?</h3>
         <div id="classification_wrapper" className={this.props.shouldHide ? 'hidden' : ''}>
           <div id="classification_list">
@@ -157,7 +196,7 @@ class Classification extends Component {
                     return (
                       <ListItem className={(classifiedUser === person.id ? "active " : "") + (confirmedUser === person.id ? "confirmed" : "")} button key={key} onClick={() => this.handleClickPerson(key)} disabled={this.state.activeStep >= this.state.imageCount}>
                         <Avatar
-                          alt={person.name}
+                          alt={this.extractUserCode(person.name)}
                           src={person.avatar}
                           className="bigAvatar" />
                         <ListItemText primary={person.name} />

@@ -14,22 +14,24 @@ const styles = theme => ({
         paddingBottom: 16,
         marginTop: theme.spacing.unit * 3,
         display: 'inline-block',
-        background: '#e57373', // Material COlor Red #300
+        //background: '#e57373', // Material Color Red #300
     }),
 });
 
-class DialogNoClassifierTrained extends React.Component {
+class PaperDialog extends React.Component {
 
   render() {
     const { classes } = this.props;
+    let style = { background: this.props.color };
+
     return (
         <div className={classes.wrapper}>
-            <Paper className={classes.root} elevation={4}>
+            <Paper className={classes.root} style={style} elevation={4}>
                 <Typography type="headline" component="h3">
-                    Hinweis
+                    {this.props.title}
                 </Typography>
                 <Typography component="p">
-                    Das System wurde bisher noch nicht trainiert. Bitte nehmen Sie Bilder von mindestens zwei Personen auf.
+                    {this.props.content}
                 </Typography>
             </Paper>
       </div>
@@ -37,8 +39,8 @@ class DialogNoClassifierTrained extends React.Component {
   }
 }
 
-DialogNoClassifierTrained.propTypes = {
+PaperDialog.propTypes = {
     classes: PropTypes.object.isRequired,
 };
   
-export default withStyles(styles)(DialogNoClassifierTrained);
+export default withStyles(styles)(PaperDialog);

@@ -32,7 +32,7 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import ChevronRightSvg from './images/chevron-right.svg';
 
 import TrainingDialog from './dialogs/TrainingDialog';
-import DialogNoClassifierTrained from './dialogs/DialogNoClassifierTrained';
+import PaperDialog from './dialogs/PaperDialog';
 
 import HTTPClient from './HTTPClient'
 
@@ -135,11 +135,7 @@ const styles = theme => ({
 
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
+  
   state = {
     open: false,
     isClassifierInitialized: true
@@ -177,7 +173,7 @@ class App extends Component {
 */
 
   getDivNoClassifierTrained(isClassifierInitialized) {
-    return isClassifierInitialized ? "" : (<DialogNoClassifierTrained />)
+    return isClassifierInitialized ? "" : (<PaperDialog color="#e57373" title="Hinweis" content="Das System wurde bisher noch nicht trainiert. Bitte richten Sie die Kamera ein und nehmen Sie Bilder von mindestens 2 verschiedenen Personen auf. Zum trainieren der Personen hier clicken..." />)
   }
 
 

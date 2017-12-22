@@ -26,7 +26,13 @@ class LiveView extends Component {
     let prediction = data.pop();
     if(prediction && prediction.predictions) {
       return prediction.predictions.map(p => p.highest).join(', ');
+    } 
+    /*
+    else if(prediction && prediction.startsWith("/9j/")) {
+      this.setState({ currentImage: `data:image/jpg;base64,${prediction}` });
     }
+    */
+
     return "-";
   }
 
@@ -38,6 +44,7 @@ class LiveView extends Component {
   // <button onClick={this.captureMQTT}>Next image</button>
   // <canvas id="canvas_live_stream" ref="canvas_live_stream"></canvas>
   // <img id="img_live_stream" src={this.state.currentImage} />
+  // <img id="img_live_stream" alt="Live Stream" src={HTTPClient.getApiEndpoint('video_feed')} />
   render() {
     return (
       <div className="LiveView">

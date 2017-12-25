@@ -24,7 +24,7 @@ class Home extends Component {
                     image_title ="Contemplative Reptile"
                     headline="Live View"
                     content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
-                    link_url="/live"
+                    link_url="/detection"
                     link_title="LiveView" />
 
         <CustomCard image_url="https://edu.google.com/images/learn-how/logo_admin_color_1x_web_512dp.png"

@@ -3,9 +3,10 @@ import './App.css';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './Home';
-import LiveView from './LiveView';
 import Timeline from './Timeline';
 import Management from './Management';
+import LiveCameraView from './liveview/LiveCameraView';
+import DetectionCameraView from './liveview/DetectionCameraView';
 import Classification from './management/Classification';
 import Verification from './management/Verification';
 import Training from './management/Training';
@@ -217,7 +218,7 @@ class App extends Component {
                   </ListItemIcon>
                   <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button component={Link} to='/live'>
+                <ListItem button component={Link} to='/detection'>
                   <ListItemIcon>
                     <VideocamIcon />
                   </ListItemIcon>
@@ -242,7 +243,8 @@ class App extends Component {
               
               <Switch>
                 <Route exact path='/' component={Home} />
-                <Route exact path='/live' component={LiveView} />
+                <Route exact path='/live' component={LiveCameraView} />
+                <Route exact path='/detection' component={DetectionCameraView} />
                 <Route exact path='/management' component={Management} />
                 <Route exact path='/management/classification/:eventid' component={Classification} />
                 <Route exact path='/management/verification' component={Verification} />

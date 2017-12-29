@@ -9,6 +9,7 @@ class LiveView extends Component {
   componentDidMount() {
       Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents()])
         .then(values => { 
+          values[1].pop(); // Remove first event (the first one is auto-generated)
           this.setState({
             persons: values[0],
             events : values[1]
@@ -71,7 +72,7 @@ class LiveView extends Component {
                         {
                           event.images.map(image => {
                             console.log(image);
-                            return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(`/api/${image.url}`)} alt="" />)
+                            return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(`/api/resized-${image.url}/134x100`)} alt="" />) // 200x150
                           })
                         }
 

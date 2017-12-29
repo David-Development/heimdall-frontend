@@ -10,7 +10,8 @@ class HTTPClient {
 
   static getServerHost() {
     //return "//localhost:5003";
-    return `//${window.location.hostname}:5000`;
+    //return `//${window.location.hostname}:5000`;
+    return `//${window.location.hostname}:${window.location.port}`;
   }
 
 
@@ -26,14 +27,14 @@ class HTTPClient {
 
 
   static fetchPersonImages(personId) {
-    let personImagesEndpoint = this.getApiEndpoint(`/person/${personId}/`)
+    let personImagesEndpoint = this.getApiEndpoint(`/api/person/${personId}/`)
     return fetch(personImagesEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
   }
 
   static fetchPersons() {
-    let personsEndpoint = this.getApiEndpoint("/persons/");
+    let personsEndpoint = this.getApiEndpoint("/api/persons/");
     return fetch(personsEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
@@ -45,14 +46,14 @@ class HTTPClient {
   }
   
   static fetchEvents() {
-    let eventEndpoint = this.getApiEndpoint("/events/");
+    let eventEndpoint = this.getApiEndpoint("/api/events/");
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json());
   }
 
   static fetchEvent(eventid) {
-    let eventEndpoint = this.getApiEndpoint("/events/");
+    let eventEndpoint = this.getApiEndpoint("/api/events/");
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())
@@ -68,7 +69,7 @@ class HTTPClient {
 
   static fetchModels() {
     //let modelsEndpoint = this.getApiEndpoint("/api/models");
-    let modelsEndpoint = this.getApiEndpoint("/api/classifier");
+    let modelsEndpoint = this.getApiEndpoint("/api/classifier/");
     return fetch(modelsEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())
@@ -106,7 +107,7 @@ class HTTPClient {
   static updateClassification(event, person_id, image_id) {
     //console.log(event);
 
-    return fetch(this.getApiEndpoint(`/api/images/`),
+    return fetch(this.getApiEndpoint('/api/images/'),
       {
           method: "PUT",
           headers: {
@@ -125,7 +126,7 @@ class HTTPClient {
   static updateClassification(event) {
     //console.log(event);
 
-    return fetch(this.getApiEndpoint(`/events/${event.id}`),
+    return fetch(this.getApiEndpoint(`/api//events/${event.id}`),
       {
           method: "PUT",
           headers: {
@@ -139,7 +140,7 @@ class HTTPClient {
   */
 
   static createNewPerson(name) {
-    return fetch(this.getApiEndpoint(`/api/gallery/`),
+    return fetch(this.getApiEndpoint('/api/gallery/'),
       {
           method: "POST",
           headers: {
@@ -154,7 +155,7 @@ class HTTPClient {
 
 
   static getImageUrl(url) {
-    let fullUrl = this.getServerHost() + "/" + url;
+    let fullUrl = this.getServerHost() + "/api/" + url;
     console.log(fullUrl);
     return fullUrl;
   }

@@ -156,11 +156,12 @@ class Classification extends Component {
       let image = this.state.event.images[this.state.activeStep];
       classification_image = <img src={HTTPClient.getApiEndpoint(`/api/${image.url}`)} alt="" />;
     
+      //console.log(image);
       if(image.detected.length > 0) {
         classifiedUser = image.detected[0].id;
       }
       confirmedUser = image.user_id;
-      console.log(classifiedUser, confirmedUser);
+      console.log("Classified:", classifiedUser, "Confirmed:", confirmedUser);
     }
 
     return (
@@ -197,7 +198,7 @@ class Classification extends Component {
                       <ListItem className={(classifiedUser === person.id ? "active " : "") + (confirmedUser === person.id ? "confirmed" : "")} button key={key} onClick={() => this.handleClickPerson(key)} disabled={this.state.activeStep >= this.state.imageCount}>
                         <Avatar
                           alt={this.extractUserCode(person.name)}
-                          src={person.avatar}
+                          src={HTTPClient.getApiEndpoint(`/api/${person.avatar}`)}
                           className="bigAvatar" />
                         <ListItemText primary={person.name} />
                       </ListItem>

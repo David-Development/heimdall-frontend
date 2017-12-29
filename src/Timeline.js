@@ -20,6 +20,10 @@ class LiveView extends Component {
     this.props.history.push(`/management/classification/${eventid}`)
   }
 
+  formatNumber(n){
+    return n > 9 ? "" + n: "0" + n;
+  }
+
   state = {
     events: []
   }
@@ -50,9 +54,17 @@ class LiveView extends Component {
                     names = names.filter((v, i, a) => a.indexOf(v) === i); // Remove duplicate names
                     names.sort(); // Sort names
                     
+                    let monthNames = ["Jan.", "Feb.", "Mär.", "Apr.", "Mai", "Jun.", "Jul.", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
+
+                    let eventDate = new Date(Date.parse(event.date));
+                    let eventTime = new Date(`1970-01-01T${event.time}Z`);
 
                     return (
-                      <li key={"event_" + event.id} className="event" data-date={new Date(Date.parse(event.date)).toLocaleDateString()} data-time={new Date(`1970-01-01T${event.time}Z`).toLocaleTimeString()} onClick={() => this.clicker(event.id)}>
+                      <li key={"event_" + event.id} 
+                          className="event"
+                          data-date={`${eventDate.getDate()} ${monthNames[eventDate.getMonth()]}`} 
+                          data-time={`${this.formatNumber(eventTime.getHours())}:${this.formatNumber(eventTime.getMinutes())}`} 
+                          onClick={() => this.clicker(event.id)}>
                         <h3>{names.join(", ")}</h3>
                         <div className="preview_flexbox">
                         

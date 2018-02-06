@@ -14,7 +14,8 @@ class LiveCameraView extends CameraView {
 }
 
 export default subscribe({
-  topic: 'camera',
+  //topic: 'camera',
+  topic: 'liveview',
   dispatch: window.MqttDispatcher.dispatch
 })(LiveCameraView);
 

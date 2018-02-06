@@ -17,6 +17,9 @@ window.MqttDispatcher = {
     } else if(topic === "camera") {
       let currentImage = `data:image/jpg;base64,${message.toString()}`;
       window.MqttDispatcher.callback_image(currentImage);
+    } else if(topic === "liveview") {
+      let currentImage = `data:image/jpg;base64,${message.toString()}`;
+      window.MqttDispatcher.callback_image(currentImage);
     }
   }
 }

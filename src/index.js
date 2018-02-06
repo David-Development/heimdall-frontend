@@ -5,9 +5,12 @@ import App from './App';
 import { Connector } from 'mqtt-react';
 import registerServiceWorker from './registerServiceWorker';
 
+//var mqttUrl = `ws://${window.location.hostname}:8083/mqtt`; // EMQ
+var mqttUrl = `ws://${window.location.hostname}:8083`;
+
 ReactDOM.render(
         (
-            <Connector mqttProps={`ws://${window.location.hostname}:8083`}>
+            <Connector mqttProps={mqttUrl}>
                 <App />
             </Connector>
         ), document.getElementById('root'));

@@ -70,8 +70,9 @@ class LiveView extends Component {
                         <div className="preview_flexbox">
                         
                         {
-                          event.images.map(image => {
-                            console.log(image);
+                          //event.images.map(image => {
+                          event.images.slice(0, 5).map(image => { // Only show first x elements
+                            //console.log(image);
                             return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(`/api/resized-${image.url}/134x100`)} alt="" />) // 200x150
                           })
                         }

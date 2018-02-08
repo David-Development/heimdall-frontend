@@ -175,8 +175,7 @@ class App extends Component {
 */
 
   getDivNoClassifierTrained(isClassifierInitialized) {
-    isClassifierInitialized = false;
-    return isClassifierInitialized ? "" : (<PaperDialog color="#e57373" title="Hinweis" content={this.getTrainModelHelpText()} />)
+    return isClassifierInitialized ? "" : (<PaperDialog color="#e57373" title="Wichtiger Hinweis" content={this.getTrainModelHelpText()} />)
   }
 
   getTrainModelHelpText() {

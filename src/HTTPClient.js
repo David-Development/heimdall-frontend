@@ -149,8 +149,8 @@ class HTTPClient {
           body: JSON.stringify({ name: name })
       })
       .then(HTTPClient.handleErrors)
-      .then(function(res){ return res.json(); })
-      .then(function(data){alert(JSON.stringify(data))})
+      .then(function(res){ return res.json(); });
+      //.then(function(data){alert(JSON.stringify(data))})
   }
 
 

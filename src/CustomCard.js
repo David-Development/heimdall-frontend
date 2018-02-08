@@ -35,7 +35,7 @@ class CustomCard extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className={this.props.className}>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}

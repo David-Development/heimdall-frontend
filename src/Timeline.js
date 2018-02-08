@@ -84,14 +84,13 @@ class Timeline extends Component {
               
               let monthNames = ["Jan.", "Feb.", "Mär.", "Apr.", "Mai", "Jun.", "Jul.", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."];
 
-              let eventDate = new Date(Date.parse(event.date));
-              let eventTime = new Date(`1970-01-01T${event.time}Z`);
-
+              let eventDate = new Date(Date.parse(`${event.date}T${event.time}`));
+              
               return (
                 <li key={"event_" + event.id} 
                     className="event"
                     data-date={`${eventDate.getDate()} ${monthNames[eventDate.getMonth()]}`} 
-                    data-time={`${this.formatNumber(eventTime.getHours())}:${this.formatNumber(eventTime.getMinutes())}`} 
+                    data-time={`${this.formatNumber(eventDate.getHours())}:${this.formatNumber(eventDate.getMinutes())}`} 
                     onClick={() => this.clicker(event.id)}>
                   <h3>{names.join(", ")}</h3>
                   <div className="preview_flexbox">

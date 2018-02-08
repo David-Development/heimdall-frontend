@@ -174,7 +174,23 @@ class App extends Component {
 */
 
   getDivNoClassifierTrained(isClassifierInitialized) {
-    return isClassifierInitialized ? "" : (<PaperDialog color="#e57373" title="Hinweis" content="Das System wurde bisher noch nicht trainiert. Bitte richten Sie die Kamera ein und nehmen Sie Bilder von mindestens 2 verschiedenen Personen auf. Zum trainieren der Personen hier clicken..." />)
+    isClassifierInitialized = false;
+    return isClassifierInitialized ? "" : (<PaperDialog color="#e57373" title="Hinweis" content={this.getTrainModelHelpText()} />)
+  }
+
+  getTrainModelHelpText() {
+    return (
+      <div>
+      <p>Das System wurde bisher noch nicht trainiert. Bitte richten Sie die Kamera ein und nehmen Sie Bilder von mindestens 2 verschiedenen Personen auf.</p>
+      
+      <p>
+      Um neue Personen zu trainieren ist es notwendig Bilder zu sammeln. Dazu stellt sich die zu erlernende Person für ca. 20 Sekunden vor die Kamera. Während dieser Zeit sollte der Kopf wenig bewegt werden. Um die Erkennungsrate zu erhöhen sollte das Gesicht aus verschiedenen Perspektiven Aufgenommen werden.
+      Nachdem ausreichend Bilder aufgezeichnet wurden, können diese in der <a href="/timeline"> Zeitleiste </a> einer konkreten Person zugeordnet werden. 
+      </p>
+
+      Nachdem mindestens 2 Personen erfolgreich Klassifiziert wurden, kann das <a href="/management/training"> Training </a> gestartet werden.
+      </div>
+    );
   }
 
 

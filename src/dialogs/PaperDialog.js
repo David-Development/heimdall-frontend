@@ -30,7 +30,7 @@ class PaperDialog extends React.Component {
                 <Typography type="headline" component="h3">
                     {this.props.title}
                 </Typography>
-                <Typography component="p">
+                <Typography component="div">
                     {this.props.content}
                 </Typography>
             </Paper>

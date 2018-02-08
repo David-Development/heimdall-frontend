@@ -24,7 +24,8 @@ import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import VideocamIcon from 'material-ui-icons/Videocam';
-import Receipt from 'material-ui-icons/Receipt';
+//import Receipt from 'material-ui-icons/Receipt';
+import TimelineIcon from 'material-ui-icons/Timeline';
 import HomeIcon from 'material-ui-icons/Home';
 import SettingsIcon from 'material-ui-icons/Settings';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
@@ -242,7 +243,7 @@ class App extends Component {
                 </ListItem>
                 <ListItem button component={Link} to='/timeline'>
                   <ListItemIcon>
-                    <Receipt />
+                    <TimelineIcon />
                   </ListItemIcon>
                   <ListItemText primary="Timeline" />
                 </ListItem>

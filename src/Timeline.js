@@ -17,9 +17,18 @@ const styles = theme => ({
 class Timeline extends Component {
 
   componentDidMount() {
-      Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents()])
+      Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents(), HTTPClient.checkIfClassifierExists()])
         .then(values => { 
-          //values[1].pop(); // Remove first event (the first one is auto-generated)
+          // Remove all items where no classifications exist (but only if classifier exists)
+          if(values[2]) {
+            values[1] = values[1].filter(el => {
+              let res = el.images.map(img => img.detected);
+              res = [].concat.apply([], res);
+              //console.log(res);
+              return res.length > 0;
+            });
+          }
+            
           this.setState({
             persons: values[0],
             events : values[1],

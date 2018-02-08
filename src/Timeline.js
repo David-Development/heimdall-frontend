@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import './Timeline.css';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import { CircularProgress } from 'material-ui/Progress';
+import purple from 'material-ui/colors/purple';
 
 import HTTPClient from './HTTPClient'
 
-class LiveView extends Component {
+const styles = theme => ({
+  progress: {
+    margin: `0 ${theme.spacing.unit * 2}px`,
+  },
+});
+
+class Timeline extends Component {
 
   componentDidMount() {
       Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents()])
@@ -30,14 +40,17 @@ class LiveView extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="main-container">
         <section id="timeline" className="timeline-outer">
           <div className="container" id="content">
             <div className="row">
               <div className="col s12 m12 l12">
-                <ul className="timeline">
 
+                <CircularProgress className={classes.progress} style={{ color: purple[500] }} thickness={7} />
+                
+                <ul className="timeline">
                 {
                   this.state.events.map(event => {
                     //console.log(event);
@@ -93,4 +106,10 @@ class LiveView extends Component {
   }
 }
 
-export default withRouter(LiveView);
+
+Timeline.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
+export default withRouter(withStyles(styles, { withTheme: true })(Timeline));

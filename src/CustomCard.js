@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-
-import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
@@ -50,7 +47,7 @@ class CustomCard extends Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button dense color="primary"><Link to={this.props.link_url}>{this.props.link_title}</Link></Button>
+            <Button dense color="primary" onClick={() => window.location = this.props.link_url }>{this.props.link_title}</Button>
             {
               (this.props.link_2_title && 
                 (<Button dense color="primary" onClick={this.props.link_2_click}>{this.props.link_2_title}</Button>)

@@ -19,7 +19,7 @@ class Timeline extends Component {
   componentDidMount() {
       Promise.all([HTTPClient.fetchPersons(), HTTPClient.fetchEvents()])
         .then(values => { 
-          values[1].pop(); // Remove first event (the first one is auto-generated)
+          //values[1].pop(); // Remove first event (the first one is auto-generated)
           this.setState({
             persons: values[0],
             events : values[1],

@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import CustomCard from './CustomCard';
 
+//import VideoCam from './images/ic_videocam_black_48px.svg'
+import PhotoCameraIcon from './images/ic_photo_camera_black_48px.svg'
+import SettingsIcon from './images/ic_settings_black_48px.svg'
 
 const styles = {
   card: {
@@ -20,17 +23,19 @@ class Home extends Component {
   render() {
     return (
       <div id="home">
-        <CustomCard image_url="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Circle-icons-videocameracompact.svg/768px-Circle-icons-videocameracompact.svg.png"
+        <CustomCard className="CustomCard"
+                    image_url={PhotoCameraIcon}
                     image_title ="Contemplative Reptile"
                     headline="Live View"
-                    content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+                    content="Der Live View ermöglicht die Anzeige der Personen, die von dem Gesichtserkennungssystem erkannt wurden"
                     link_url="/detection"
                     link_title="LiveView" />
 
-        <CustomCard image_url="https://edu.google.com/images/learn-how/logo_admin_color_1x_web_512dp.png"
+        <CustomCard className="CustomCard"
+                    image_url={SettingsIcon}
                     image_title ="Contemplative Reptile"
                     headline="Management"
-                    content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+                    content="Die Management Funktion ermöglicht das erneute Training des Gesichtserkennungssystems. Außerdem können dort die Bilder der bekannten Personen eingesehen werden."
                     link_url="/management"
                     link_title="Management" />
       </div>

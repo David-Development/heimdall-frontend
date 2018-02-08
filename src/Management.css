@@ -12,3 +12,8 @@ button a {
 .CustomCard {
   margin-left: 16px;
 }
+
+#management [class*="CustomCard-media"] {
+  filter: invert(0.2);
+}
+

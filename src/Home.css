@@ -9,6 +9,10 @@ button a {
   justify-content: center;
 }
 
-#home > CustomCard {
+#home .CustomCard {
   margin-left: 16px;
+}
+
+#home [class*="CustomCard-media"] {
+  filter: invert(0.2);
 }

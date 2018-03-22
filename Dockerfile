@@ -1,7 +1,7 @@
 # https://hub.docker.com/_/node/
-FROM node:9-alpine as builder
+FROM node:9-alpine
     
-RUN npm install -g yarn
+RUN npm install -g yarn serve
 
 WORKDIR /app/
 
@@ -16,9 +16,6 @@ WORKDIR /app/
 
 # Difference between ; and && in shell command: ; executes all of them. && only execute is previous was successful
 
-
-
-RUN yarn global add serve
 
 COPY package.json yarn.lock ./
 #RUN yarn install --frozen-lockfile --no-cache --production 

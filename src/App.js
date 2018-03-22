@@ -211,7 +211,7 @@ class App extends Component {
                   <MenuIcon />
                 </IconButton>
                 <Typography type="title" color="inherit" noWrap className={classes.titleFlex}>
-                  Facial recognition for Peephole  {this.state.isClassifierInitialized}
+                  Heimdall Gesichtserkennungssystem {this.state.isClassifierInitialized}
                 </Typography>
               </Toolbar>
             </AppBar>
@@ -258,7 +258,6 @@ class App extends Component {
               {this.getDivNoClassifierTrained(this.state.isClassifierInitialized)}
               
               <Switch>
-                <Route exact path='/' component={Home} />
                 <Route exact path='/live' component={LiveCameraView} />
                 <Route exact path='/detection' component={DetectionCameraView} />
                 <Route exact path='/management' component={Management} />
@@ -267,6 +266,7 @@ class App extends Component {
                 <Route exact path='/management/gallery' component={Gallery} />
                 <Route exact path='/management/training' component={Training} />
                 <Route exact path='/timeline' component={Timeline} />
+                <Route exact path='*' component={Home} />
               </Switch>
             </main>
           </div>

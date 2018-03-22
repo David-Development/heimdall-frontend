@@ -53,11 +53,10 @@ class HTTPClient {
   }
 
   static fetchEvent(eventid) {
-    let eventEndpoint = this.getApiEndpoint("/api/events/");
+    let eventEndpoint = this.getApiEndpoint(`/api/event/${eventid}`);
     return fetch(eventEndpoint)
       .then(HTTPClient.handleErrors)
       .then(result => result.json())
-      .then(res => res.find(event => event.id === eventid))
       .then(event => event ? event : []); // Event or empty by default
 
       /*

@@ -18,20 +18,21 @@ WORKDIR /app/
 
 
 COPY package.json yarn.lock ./
-#RUN yarn install --frozen-lockfile --no-cache --production 
-RUN yarn install --no-cache --production 
 
 COPY . /app
 
 ARG NODE_ENV=production
 RUN set -ex; \
   if [ "$NODE_ENV" = "dev" ]; then \
-    echo "Dev Environment"; \
+    echo "Dev Environment" && \
+    yarn install --no-cache --production; \
 #  elif [ "$NODE_ENV" = "test" ]; then \
 #    yarn install --no-cache --frozen-lockfile; \
   else \
     echo "Production Environment" && \
-    yarn build; \
+    yarn install --frozen-lockfile --no-cache --production && \
+    yarn build && \
+    rm -R node_modules; \
   fi;
 
 CMD serve -s build --port 3000

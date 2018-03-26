@@ -172,9 +172,8 @@ class Classification extends Component {
 
     if(this.state.event.images !== undefined) {
       let image = this.state.event.images[this.state.activeStep];
-      classification_image = <img src={HTTPClient.getApiEndpoint(`/api/${image.url}`)} alt="" />;
-    
-      //console.log(image);
+      classification_image = <img key={image.id} src={HTTPClient.getApiEndpoint(`/api/${image.url}`)} alt="" />;
+      
       if(image.detected.length > 0) {
         classifiedUser = image.detected[0].id;
       }

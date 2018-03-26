@@ -262,7 +262,7 @@ class App extends Component {
                 <Route exact path='/live' component={LiveCameraView} />
                 <Route exact path='/detection' component={DetectionCameraView} />
                 <Route exact path='/management' component={Management} />
-                <Route exact path='/management/classification/:eventid' component={Classification} />
+                <Route exact path='/management/classification/:eventid/:imageid?' component={Classification} />
                 <Route exact path='/management/verification' component={Verification} />
                 <Route exact path='/management/gallery' component={Gallery} />
                 <Route exact path='/management/training' component={Training} />

@@ -40,8 +40,8 @@ class Timeline extends Component {
         });
   }
 
-  clicker(eventid) {
-    this.props.history.push(`/management/classification/${eventid}`)
+  clickImage(event_id, image_id) {
+    this.props.history.push(`/management/classification/${event_id}/${image_id}`)
   }
 
   formatNumber(n){
@@ -90,8 +90,7 @@ class Timeline extends Component {
                 <li key={"event_" + event.id} 
                     className="event"
                     data-date={`${eventDate.getDate()} ${monthNames[eventDate.getMonth()]}`} 
-                    data-time={`${this.formatNumber(eventDate.getHours())}:${this.formatNumber(eventDate.getMinutes())}`} 
-                    onClick={() => this.clicker(event.id)}>
+                    data-time={`${this.formatNumber(eventDate.getHours())}:${this.formatNumber(eventDate.getMinutes())}`} >
                   <h3>{names.join(", ")}</h3>
                   <div className="preview_flexbox">
                   
@@ -99,7 +98,7 @@ class Timeline extends Component {
                     event.images.map(image => {
                     //event.images.slice(0, 5).map(image => { // Only show first x elements
                       //console.log(image);
-                      return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(`/api/resized-${image.url}/134x100`)} alt="" />) // 200x150
+                      return (<img key={"image_" + image.id} className="event_img" src={HTTPClient.getApiEndpoint(`/api/resized-${image.url}/134x100`)} alt="" onClick={() => this.clickImage(event.id, image.id)} />) // 200x150
                     })
                   }
 

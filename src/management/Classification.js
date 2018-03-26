@@ -35,14 +35,25 @@ class Classification extends Component {
 
     Promise.all([HTTPClient.fetchEvent(parseInt(params.eventid, 10)), HTTPClient.fetchPersons()])
       .then(res => {
-        this.setState({ persons: res[1]});
-        this.setState({ event  : res[0]});
+        this.setState({
+          persons: res[1],
+          event  : res[0]
+        });
 
         if(this.state.event.images !== undefined) {
-          this.setState({ imageCount: Object.keys(this.state.event.images).length });
+          let aStep = 0;
+          if(params.imageid) {
+            console.log("Query!!");
+            aStep = this.state.event.images.findIndex((el) => el.id === +params.imageid);
+          }
+          
+          this.setState({ 
+            imageCount: Object.keys(this.state.event.images).length,
+            activeStep: aStep
+          });
         }
     
-        //console.log(this.state);
+        console.log(this.state);
       });
   }
 
@@ -59,18 +70,25 @@ class Classification extends Component {
     imageCount: 0
   }
 
+  updateUrl() {
+    let imageid = this.state.event.images[this.state.activeStep].id;
+    this.props.history.push(`/management/classification/${this.state.event.id}/${imageid}`)
+  }
+
   handleNext = () => {
     if(this.state.activeStep < (this.state.imageCount-1)) {
       this.setState({
         activeStep: this.state.activeStep + 1,
       });
     }
+    this.updateUrl();
   };
 
   handleBack = () => {
     this.setState({
       activeStep: this.state.activeStep - 1,
     });
+    this.updateUrl();
   };
 
   handleClickPerson = (key) => {

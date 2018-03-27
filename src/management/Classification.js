@@ -149,6 +149,11 @@ class Classification extends Component {
     return result;
   }
 
+  getAvatar(person) {
+    return person.avatar 
+        ? HTTPClient.getApiEndpoint(`/api/${person.avatar}`)
+        : undefined;
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -203,8 +208,10 @@ class Classification extends Component {
                       <ListItem className={(classifiedUser === person.id ? "active " : "") + (confirmedUser === person.id ? "confirmed" : "")} button key={key} onClick={() => this.handleClickPerson(key)} disabled={this.state.activeStep >= this.state.imageCount}>
                         <Avatar
                           alt={this.extractUserCode(person.name)}
-                          src={HTTPClient.getApiEndpoint(`/api/${person.avatar}`)}
-                          className="bigAvatar" />
+                          src={this.getAvatar(person)}
+                          className="bigAvatar">
+                          {person.avatar ? "" : person.name.substr(0,1)}
+                        </Avatar>
                         <ListItemText primary={person.name} />
                       </ListItem>
                     );

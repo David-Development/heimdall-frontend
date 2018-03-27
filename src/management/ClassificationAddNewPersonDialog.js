@@ -53,7 +53,7 @@ class ClassificationAddNewPersonDialog extends React.Component {
           fullScreen={fullScreen}
           open={this.state.open}
           onRequestClose={this.handleRequestClose}>
-          <DialogTitle>{"Neue Person anlegen"}</DialogTitle>
+          <DialogTitle>Neue Person anlegen</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Gebe bitte einen Namen für die neue Person ein.

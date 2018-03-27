@@ -35,29 +35,35 @@ class Classification extends Component {
 
     Promise.all([HTTPClient.fetchEvent(parseInt(params.eventid, 10)), HTTPClient.fetchPersons()])
       .then(res => {
-        this.setState({
-          persons: res[1],
-          event  : res[0]
-        });
+        let persons = res[1];
+        let event = res[0];
+        let imageCount = 0;
+        let activeStep = 0;
 
-        if(this.state.event.images !== undefined) {
+        if(event.images !== undefined) {
+          imageCount = Object.keys(event.images).length;
+
           let aStep = 0;
           if(params.imageid) {
-            console.log("Query!!");
-            aStep = this.state.event.images.findIndex((el) => el.id === +params.imageid);
+            activeStep = event.images.findIndex((el) => el.id === +params.imageid);
+            console.log(`Found image ${event.images[aStep].id} at position: ${activeStep}`);
           }
-          
-          this.setState({ 
-            imageCount: Object.keys(this.state.event.images).length,
-            activeStep: aStep
-          });
         }
-    
-        console.log(this.state);
+
+        console.log("setData");
+        this.setState({
+          persons   : persons,
+          event     : event,
+          imageCount: imageCount,
+          activeStep: activeStep
+        }, () => {
+          //this.updateUrl();
+        });
       });
   }
 
   checkImageCount() {
+    console.log("checkImageCount");
     this.setState({
       shouldHide: this.state.images.length > 0
     });
@@ -72,27 +78,33 @@ class Classification extends Component {
 
   updateUrl() {
     let imageid = this.state.event.images[this.state.activeStep].id;
+    console.log(`Update URL: ${imageid} - ActiveStep: ${this.state.activeStep}`);
     this.props.history.push(`/management/classification/${this.state.event.id}/${imageid}`)
+    // TODO bug when navigating back.. not working..
   }
 
   handleNext = () => {
+    console.log(`handleNext`);
     if(this.state.activeStep < (this.state.imageCount-1)) {
       this.setState({
         activeStep: this.state.activeStep + 1,
+      }, () => {
+        //this.updateUrl();
       });
     }
-    this.updateUrl();
   };
 
   handleBack = () => {
+    console.log("handleBack");
     this.setState({
       activeStep: this.state.activeStep - 1,
+    }, () => {
+      //this.updateUrl();
     });
-    this.updateUrl();
   };
 
-  handleClickPerson = (key) => {
-    let person = this.state.persons[key];
+  handleClickPerson = (index) => {
+    let person = this.state.persons[index];
     //console.log("Person:", person);
 
     let activeImage = this.state.event.images[this.state.activeStep];
@@ -101,11 +113,15 @@ class Classification extends Component {
       activeImage.detected[0] = { id: 0 };
     } 
     
-    // Get current detection
-    let detection = activeImage.detected[0];
-    detection.id = person.id; // update the person id
-    activeImage.user_id = person.id;
+    if(activeImage.user_id === person.id) {
+      let unkownGallery = this.state.persons.find((e) => e.name === 'unknown');
+      activeImage.user_id = unkownGallery.id;
+    } else {
+      activeImage.user_id = person.id;
+    }
     
+    this.updateUrl();
+
     this.setState(this.state);
 
     // Update the person of the first image. If we detected more than one person we don't allow the update process!
@@ -118,7 +134,7 @@ class Classification extends Component {
   }
 
   openNewPersonDialog = () => {
-    this.ctl.open();
+    this.dialogNewPerson.open();
   };
 
   storeNewPerson(name) {
@@ -129,11 +145,14 @@ class Classification extends Component {
         HTTPClient.fetchPersons()
         .then(persons => {
           this.setState({ persons: persons });
+
+          let idx = persons.findIndex((e) => e.name === name);
+          this.handleClickPerson(idx);
         })
       })
       .catch(alert);
 
-    this.ctl.close();
+    this.dialogNewPerson.close();
   }
 
   extractUserCode(username) {
@@ -191,7 +210,7 @@ class Classification extends Component {
         <h3 id="classification_title">Wie heißt diese Person?</h3>
         <div id="classification_wrapper" className={this.props.shouldHide ? 'hidden' : ''}>
           <div id="classification_list">
-            <ClassificationAddNewPersonDialog provideController={ctl => this.ctl = ctl} storeNewPerson={(name) => this.storeNewPerson(name)} />
+            <ClassificationAddNewPersonDialog provideController={ctl => this.dialogNewPerson = ctl} storeNewPerson={(name) => this.storeNewPerson(name)} />
             <List>
               <ListItem button onClick={this.openNewPersonDialog} disabled={this.state.activeStep >= this.state.imageCount}>
                 <Avatar>

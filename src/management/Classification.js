@@ -149,18 +149,6 @@ class Classification extends Component {
     return result;
   }
 
-  /*
-  console.log(extractUserCode(""));
-  console.log(extractUserCode("D"));
-  console.log(extractUserCode("David"));
-  console.log("___")
-  console.log(extractUserCode("David "));
-  console.log(extractUserCode("David L"));
-  console.log(extractUserCode("David Luhmer"));
-  console.log(extractUserCode("David  Luhmer"));
-  console.log(extractUserCode(" David   Luhmer"));
-  console.log("Done");
-  */
 
   render() {
     const { classes, theme } = this.props;

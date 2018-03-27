@@ -34,8 +34,10 @@ const columnData = [
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    //width: '100%',
     marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
   },
   table: {
     minWidth: 800,

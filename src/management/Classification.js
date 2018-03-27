@@ -109,7 +109,7 @@ class Classification extends Component {
     this.setState(this.state);
 
     // Update the person of the first image. If we detected more than one person we don't allow the update process!
-    HTTPClient.updateClassification(this.state.event, person.id, activeImage.id)
+    HTTPClient.updateClassification(activeImage.user_id, activeImage.id)
       .then(r => {
         console.log(r);
         this.loadData();

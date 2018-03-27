@@ -103,9 +103,7 @@ class HTTPClient {
 
 
 
-  static updateClassification(event, person_id, image_id) {
-    //console.log(event);
-
+  static updateClassification(person_id, image_id) {
     return fetch(this.getApiEndpoint('/api/images/'),
       {
           method: "PUT",

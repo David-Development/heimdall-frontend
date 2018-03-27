@@ -150,6 +150,16 @@ class HTTPClient {
       //.then(function(data){alert(JSON.stringify(data))})
   }
 
+  static deletePerson(personid) {
+    return fetch(
+        this.getApiEndpoint(`/api/gallery/${personid}/`),
+        { method: "DELETE" }
+      )
+      .then(HTTPClient.handleErrors)
+      .then(function(res){ return res.json(); });
+  }
+
+  
 
   static getImageUrl(url) {
     let fullUrl = this.getServerHost() + "/api/" + url;

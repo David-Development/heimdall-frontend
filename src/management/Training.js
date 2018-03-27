@@ -147,6 +147,10 @@ class Training extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+  convertDate(date) {
+    return new Date(Date.parse(date)).toLocaleString();
+  }
+
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -186,12 +190,12 @@ class Training extends React.Component {
                     <TableCell padding="none">{n.name}</TableCell>
                     <TableCell text="true">{n.classifier_type}</TableCell>
                     <TableCell text="true">{n.loaded ? "Ja" : "Nein"}</TableCell>
-                    <TableCell numeric>{n.cv_score}</TableCell>
+                    <TableCell numeric>{Number.parseFloat(n.cv_score).toPrecision(2)}</TableCell>
                     <TableCell numeric>{n.num_classes}</TableCell>
                     <TableCell numeric>{n.total_images}</TableCell>
                     <TableCell numeric>{n.total_no_faces}</TableCell>
                     <TableCell numeric>{n.training_time}</TableCell>
-                    <TableCell text="true">{n.date}</TableCell>
+                    <TableCell text="true">{this.convertDate(n.date)}</TableCell>
                   </TableRow>
                 );
               })}

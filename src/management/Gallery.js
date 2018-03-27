@@ -2,6 +2,9 @@ import React from 'react';
 
 import './Gallery.css'
 
+import DeleteDialog from './DeleteDialog'
+import Button from 'material-ui/Button';
+
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { GridList, GridListTile } from 'material-ui/GridList';
@@ -36,21 +39,30 @@ const styles = theme => ({
 class Gallery extends React.Component {
 
   componentDidMount() {
+    this.reloadData();
+  }
+
+  reloadData(callback) {
+    console.log("Reload data");
     HTTPClient.fetchPersons()
       .then(persons => {
         this.setState({ persons: persons });
-      });
+
+        if(callback) {
+          callback();
+        }
+      })
+      .catch(error => alert(error));
   }
 
   state = {
-    activeStep: 0,
     persons: {},
     currentPerson: {},
     currentImages: []
   }
 
   handleClickPerson = (key) => {
-    console.log(this.state.persons[key]);
+    console.log(key, " - ", this.state.persons[key]);
 
     HTTPClient.fetchPersonImages(this.state.persons[key].id)
       .then(gallery => {
@@ -69,12 +81,62 @@ class Gallery extends React.Component {
       });
   }
 
+  openDeletePersonDialog = (person) => {
+    console.log(person);
+    this.dialogDeletePerson.setTitle(`Person entfernen`);
+    this.dialogDeletePerson.setContent(`Möchten Sie die Person "${person.name}" wirklich löschen?\nIhre Daten bleiben erhalten.`);
+    this.dialogDeletePerson.open();
+  };
+
+  deletePerson() {
+    console.log("deletePerson", this.state.currentPerson);
+
+    HTTPClient.deletePerson(this.state.currentPerson.id)
+      .then(() => this.reloadData())
+      .catch(error => {
+        alert(error);
+      });
+    
+    this.dialogDeletePerson.close();
+  }
+
+  openDeleteImageDialog = (imageid) => {
+    this.dialogDeleteImage.setTitle(`Bild entfernen`);
+    this.dialogDeleteImage.setContent(`Möchten Sie das Bild wirklich löschen?`);
+    this.dialogDeleteImage.setId(imageid);
+    this.dialogDeleteImage.open();
+  }
+
+  deleteImage(imageid) {
+    console.log("deleteimage", imageid);
+    
+    let unkownGallery = this.state.persons.find((e) => e.name === 'unknown');
+
+    // Update the person of the first image. If we detected more than one person we don't allow the update process!
+    HTTPClient.updateClassification(unkownGallery.id, imageid)
+      .then(r => this.reloadData(() => {
+        let idx = this.state.persons.findIndex((e) => e.id === this.state.currentPerson.id);
+        this.handleClickPerson(idx);
+      }))
+      .catch(alert);
+
+    this.dialogDeleteImage.close();
+  }
+
+  isPersonSelected() {
+    return !(Object.keys(this.state.currentPerson).length === 0 && this.state.currentPerson.constructor === Object);
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <div id="gallery_wrapper">
         <div id="gallery_list">
+
+          <DeleteDialog provideController={ctl => this.dialogDeletePerson = ctl} delete={(id) => this.deletePerson()}  />
+          <DeleteDialog provideController={ctl => this.dialogDeleteImage = ctl}  delete={(imageid) => this.deleteImage(imageid)}  />
+          
           <List>
             {
               Object.keys(this.state.persons).filter(key => {
@@ -98,11 +160,16 @@ class Gallery extends React.Component {
           </List>
         </div>
         <div id="gallery_content" className={classes.root}>
+        
+          { this.isPersonSelected() && 
+            <Button className="btn_delete_person" dense color="primary" onClick={() => this.openDeletePersonDialog(this.state.currentPerson)}>Person Löschen</Button>
+          }
+          
           <GridList cellHeight={160} className={classes.gridList} cols={3}>
             {
               this.state.currentImages.map(image => 
-                (<GridListTile key={image.id} cols={1}>
-                  <img src={HTTPClient.getApiEndpoint(`/api/${image.path}`)} alt="" />
+                (<GridListTile key={image.id} cols={1} onClick={() => this.openDeleteImageDialog(image.id)}>
+                  <img key={image.id} src={HTTPClient.getApiEndpoint(`/api/${image.path}`)} alt="" />
                 </GridListTile>)
               )
             }

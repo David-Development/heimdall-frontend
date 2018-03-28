@@ -181,15 +181,21 @@ class App extends Component {
 
   getTrainModelHelpText() {
     return (
-      <div>
-      <p>Das System wurde bisher noch nicht trainiert. Bitte richten Sie die Kamera ein und nehmen Sie Bilder von mindestens 2 verschiedenen Personen auf.</p>
-      
-      <p>
-      Um neue Personen zu trainieren ist es notwendig Bilder zu sammeln. Dazu stellt sich die zu erlernende Person für ca. 20 Sekunden vor die Kamera. Während dieser Zeit sollte der Kopf wenig bewegt werden. Um die Erkennungsrate zu erhöhen sollte das Gesicht aus verschiedenen Perspektiven Aufgenommen werden.
-      Nachdem ausreichend Bilder aufgezeichnet wurden, können diese in der <a href="/timeline"> Zeitleiste </a> einer konkreten Person zugeordnet werden. 
-      </p>
+      <div style={{textAlign: 'left'}}>
+        <p>Das System wurde bisher noch nicht trainiert. Zum trainieren des Systems sind zwei Personen erforderlich. Im folgenden finden Sie eine Schrittweise anleitung wie das Training erfolgt.</p>
+        <p>Bitte beachten Sie den folgenden Hinweis: Schauen Sie immer direkt in die Kamera. Um Ihr Gesicht aus verschiedenen Perspektiven aufzunehmen drehen Sie Ihren Kopf maximal um 50°.</p>
 
-      Nachdem mindestens 2 Personen erfolgreich Klassifiziert wurden, kann das <a href="/management/training"> Training </a> gestartet werden.
+        <h2>Vorgehen:</h2>
+        <ol>
+          <li>Schalten Sie die Kamera ein</li>
+          <li>Person 1 stellt sich für ca. 30 Sekunden vor die Kamera</li>
+          <li>Person 2 stellt sich für ca. 30 Sekunden vor die Kamera</li>
+          <li>Öffnen der <a href="/timeline">Zeitleiste</a></li>
+          <li>Klicken Sie auf ein Bild um die Zuordnung der Personen vorzunehmen</li>
+          <li>Nutzen Sie die Navigationstasten über dem Bild um weitere Bilder zuzuordnen</li>
+          <li>Wenn Sie zwei Personen mehrere Bilder zugeordnet haben können Sie das Training starten. Klicken Sie dazu hier: <a href="/management/training">Training</a>.</li>
+          <li>Starten Sie das Training mit einem Klick auf: "Training starten"</li>
+        </ol>
       </div>
     );
   }
